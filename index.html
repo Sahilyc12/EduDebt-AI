@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EduDebt.AI – Education Loan Planner</title>
+  <style>
+    :root {
+      --p: #4338ca;
+      --pl: #eef0ff;
+      --bg: #f8fafc;
+      --tx: #0f172a;
+      --mu: #64748b;
+      --bd: #e2e8f0;
+      --g: #059669;
+      --gl: #d1fae5;
+      --r: #dc2626;
+      --navy: #1e1b4b
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0
+    }
+
+    body {
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--tx);
+      line-height: 1.45
+    }
+
+    button,
+    input,
+    select {
+      font: inherit
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -.02em
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 700
+    }
+
+    .mu {
+      color: var(--mu)
+    }
+
+    .sm {
+      font-size: .85rem
+    }
+
+    .c {
+      text-align: center
+    }
+
+    a {
+      cursor: pointer;
+      color: var(--p);
+      font-weight: 600
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .top {
+      background: #fff;
+      border-bottom: 1px solid var(--bd);
+      position: sticky;
+      top: 0;
+      z-index: 20
+    }
+
+    .top>div {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap
+    }
+
+    .lg {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.25rem
+    }
+
+    .lg b {
+      color: var(--p)
+    }
+
+    .lnk {
+      display: flex;
+      gap: 28px;
+      color: var(--mu);
+      font-size: .92rem
+    }
+
+    .lnk a {
+      color: var(--mu);
+      font-weight: 500
+    }
+
+    .btn,
+    .btn2 {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      background: var(--p);
+      transition: .15s
+    }
+
+    .btn:hover {
+      background: #3730a3
+    }
+
+    .btn2 {
+      background: var(--pl);
+      color: var(--p)
+    }
+
+    .btn2:hover {
+      background: #dfe3ff
+    }
+
+    .btn:focus-visible,
+    .btn2:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #a5b4fc;
+      outline-offset: 2px
+    }
+
+    .w {
+      width: 100%;
+      margin: 6px 0
+    }
+
+    .big {
+      padding: 15px;
+      width: 100%
+    }
+
+    .danger {
+      background: #fee2e2;
+      color: var(--r)
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--bd);
+      border-radius: 18px;
+      padding: 24px
+    }
+
+    .pill {
+      display: inline-block;
+      background: var(--pl);
+      color: var(--p);
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px
+    }
+
+    .pill.g {
+      background: var(--gl);
+      color: var(--g)
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 40px;
+      align-items: center;
+      padding-top: 60px;
+      padding-bottom: 30px
+    }
+
+    .hero p.mu {
+      margin: 22px 0;
+      font-size: 1.1rem;
+      max-width: 34em
+    }
+
+    .row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 10px 0
+    }
+
+    .bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      height: 220px;
+      margin-top: 20px
+    }
+
+    .bars i {
+      flex: 1;
+      background: var(--p);
+      border-radius: 6px 6px 0 0
+    }
+
+    .bars i:last-child {
+      background: #059669
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px 24px
+    }
+
+    .stats b {
+      display: block;
+      font-size: 2rem;
+      color: var(--p)
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin: 30px 0 70px
+    }
+
+    .steps b.n {
+      color: var(--p);
+      font-size: 1.2rem
+    }
+
+    .dark {
+      background: var(--navy);
+      border-radius: 28px;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+      color: #fff;
+      margin-bottom: 60px
+    }
+
+    .dark h2 {
+      font-size: 2.2rem
+    }
+
+    .dark .card {
+      color: var(--tx)
+    }
+
+    .foot {
+      border-top: 1px solid var(--bd);
+      background: #fff;
+      padding: 34px 24px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--mu);
+      font-size: .82rem
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 40px;
+      padding-top: 50px;
+      padding-bottom: 60px;
+      align-items: start
+    }
+
+    .g3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 20px
+    }
+
+    .g3 .card {
+      padding: 18px
+    }
+
+    .g3 b {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--p)
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--pl);
+      border-radius: 999px;
+      padding: 4px;
+      margin-bottom: 22px
+    }
+
+    .tabs button {
+      flex: 1;
+      border: 0;
+      background: none;
+      padding: 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--mu)
+    }
+
+    .tabs button.on {
+      background: #fff;
+      color: var(--tx);
+      box-shadow: 0 1px 3px #0002
+    }
+
+    label.l {
+      display: block;
+      font-weight: 600;
+      font-size: .85rem;
+      margin: 14px 0 6px
+    }
+
+    .in {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid var(--bd);
+      border-radius: 12px;
+      background: #f8fafc
+    }
+
+    .err {
+      color: var(--r);
+      font-size: .88rem;
+      min-height: 1.3em;
+      margin: 8px 0
+    }
+
+    .auth .btn2 {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--bd);
+      background: #f8fafc;
+      color: var(--tx);
+      border-radius: 12px
+    }
+
+    .pb {
+      height: 10px;
+      border-radius: 9px;
+      background: #e2e8f0;
+      margin: 18px 0;
+      overflow: hidden
+    }
+
+    .pb i {
+      display: block;
+      height: 100%;
+      background: var(--p);
+      border-radius: 9px
+    }
+
+    .steps3 {
+      display: flex;
+      gap: 40px;
+      padding: 22px 0;
+      color: var(--mu);
+      font-size: .9rem;
+      flex-wrap: wrap
+    }
+
+    .steps3 .on {
+      color: var(--p);
+      font-weight: 700
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 28px;
+      align-items: start
+    }
+
+    .opts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px
+    }
+
+    .opt {
+      border: 1px solid var(--bd);
+      border-radius: 14px;
+      padding: 22px 18px;
+      cursor: pointer;
+      background: #fff;
+      font-weight: 600;
+      text-align: left;
+      min-height: 84px
+    }
+
+    .opt.on {
+      background: var(--pl);
+      border-color: var(--p);
+      color: var(--p)
+    }
+
+    .chips {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      max-width: 520px
+    }
+
+    .chip {
+      border: 0;
+      text-align: left;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--pl);
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .chip.on {
+      background: var(--p);
+      color: #fff
+    }
+
+    .kp {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px
+    }
+
+    .k {
+      border: 1px solid var(--bd);
+      border-radius: 14px;
+      padding: 16px;
+      background: #fff
+    }
+
+    .k small {
+      color: var(--mu);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .k b {
+      display: block;
+      font-size: 1.6rem;
+      margin-top: 4px
+    }
+
+    .gr {
+      color: var(--g)
+    }
+
+    .pu {
+      color: var(--p)
+    }
+
+    .rd {
+      color: var(--r)
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--p)
+    }
+
+    .drop {
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 20px 10px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      background: #f8fafc
+    }
+
+    .drop.hv {
+      border-color: var(--p);
+      background: var(--pl)
+    }
+
+    .f2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 18px
+    }
+
+    .banner {
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-top: 16px;
+      font-weight: 600;
+      font-size: .92rem
+    }
+
+    .banner.b {
+      background: var(--pl)
+    }
+
+    .banner.gn {
+      background: var(--gl);
+      color: var(--g)
+    }
+
+    .banner.y {
+      background: #fef3c7;
+      color: #92400e;
+      font-weight: 500
+    }
+
+    .acts {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin: 26px 0;
+      flex-wrap: wrap
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh
+    }
+
+    .side {
+      background: #fff;
+      border-right: 1px solid var(--bd);
+      padding: 22px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: sticky;
+      top: 0;
+      height: 100vh
+    }
+
+    .side a.nv {
+      display: block;
+      padding: 13px 18px;
+      border-radius: 12px;
+      color: var(--tx);
+      font-weight: 600;
+      margin-top: 4px
+    }
+
+    .side a.nv.on {
+      background: var(--p);
+      color: #fff
+    }
+
+    .side a.nv:not(.on):hover {
+      background: var(--pl)
+    }
+
+    .lc {
+      margin-top: auto;
+      background: var(--pl);
+      border-radius: 16px;
+      padding: 16px
+    }
+
+    .lc b {
+      font-size: 1.6rem;
+      display: block
+    }
+
+    .main {
+      min-width: 0
+    }
+
+    .tb {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      background: #fff;
+      border-bottom: 1px solid var(--bd);
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 10
+    }
+
+    .tb .sp {
+      flex: 1
+    }
+
+    .ham {
+      display: none;
+      border: 0;
+      background: var(--pl);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 1.2rem;
+      cursor: pointer
+    }
+
+    .av {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #bfdbfe;
+      border: 0;
+      cursor: pointer;
+      font-weight: 800;
+      color: #1d4ed8;
+      position: relative
+    }
+
+    .menu {
+      position: absolute;
+      right: 28px;
+      top: 62px;
+      background: #fff;
+      border: 1px solid var(--bd);
+      border-radius: 12px;
+      padding: 8px;
+      display: none;
+      box-shadow: 0 8px 24px #0002;
+      z-index: 30
+    }
+
+    .menu.on {
+      display: block
+    }
+
+    .pg {
+      padding: 26px 28px 60px
+    }
+
+    .hb {
+      background: var(--p);
+      color: #fff;
+      border-radius: 22px;
+      padding: 34px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap
+    }
+
+    .hb p {
+      opacity: .9;
+      max-width: 640px;
+      margin-top: 10px
+    }
+
+    .hb .btn {
+      background: #fff;
+      color: var(--p)
+    }
+
+    .kg {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+      margin: 22px 0
+    }
+
+    .dg {
+      display: grid;
+      grid-template-columns: 1.9fr 1fr;
+      gap: 22px
+    }
+
+    .cb {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      height: 230px;
+      margin-top: 20px
+    }
+
+    .cb i {
+      flex: 1;
+      background: var(--p);
+      border-radius: 6px 6px 0 0;
+      position: relative
+    }
+
+    .cb i:last-child {
+      background: var(--g)
+    }
+
+    .cb i:hover::after {
+      content: attr(data-t);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: .7rem;
+      white-space: nowrap
+    }
+
+    .sg {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 14px
+    }
+
+    .sg .card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: space-between
+    }
+
+    .ai {
+      background: var(--pl);
+      border-radius: 12px;
+      padding: 14px;
+      margin: 14px 0;
+      font-size: .92rem;
+      min-height: 84px
+    }
+
+    .cs {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: calc(100vh - 69px)
+    }
+
+    .hist {
+      background: #dde6f1;
+      padding: 16px;
+      overflow: auto
+    }
+
+    .hist .it {
+      display: block;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: .92rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .hist .it:hover,
+    .hist .it.on {
+      background: #fff8
+    }
+
+    .chat {
+      display: flex;
+      flex-direction: column;
+      min-width: 0
+    }
+
+    .msgs {
+      flex: 1;
+      overflow: auto;
+      padding: 22px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    .m {
+      max-width: 760px;
+      border-radius: 18px;
+      padding: 16px 20px
+    }
+
+    .m.u {
+      background: #111827;
+      color: #fff;
+      align-self: flex-end
+    }
+
+    .m.a {
+      background: #fff;
+      border: 1px solid var(--bd);
+      align-self: flex-start
+    }
+
+    .m .g3 {
+      margin: 14px 0 6px
+    }
+
+    .tip {
+      background: var(--pl);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 10px;
+      font-size: .9rem
+    }
+
+    .cin {
+      display: flex;
+      gap: 10px;
+      padding: 14px 26px 22px
+    }
+
+    .cin input {
+      flex: 1;
+      border-radius: 999px;
+      padding: 14px 20px;
+      border: 1px solid var(--bd)
+    }
+
+    .sug {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px
+    }
+
+    table.t {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .t td,
+    .t th {
+      padding: 20px 18px;
+      text-align: left
+    }
+
+    .t th {
+      font-size: .72rem;
+      color: var(--mu);
+      text-transform: uppercase;
+      letter-spacing: .04em
+    }
+
+    .t td:nth-child(3),
+    .t th:nth-child(3) {
+      background: var(--pl);
+      color: var(--p);
+      font-weight: 700
+    }
+
+    .t td:nth-child(2) {
+      font-weight: 700;
+      font-size: 1.1rem
+    }
+
+    .t td:nth-child(3) {
+      font-size: 1.1rem
+    }
+
+    .ov {
+      overflow-x: auto
+    }
+
+    .sw {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      display: inline-block;
+      flex: none
+    }
+
+    .sw input {
+      opacity: 0;
+      width: 0;
+      height: 0
+    }
+
+    .sw span {
+      position: absolute;
+      inset: 0;
+      background: #e2e8f0;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .sw span::before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: .2s
+    }
+
+    .sw input:checked+span {
+      background: var(--p)
+    }
+
+    .sw input:checked+span::before {
+      transform: translateX(24px)
+    }
+
+    .sw input:focus-visible+span {
+      outline: 3px solid #a5b4fc
+    }
+
+    .tr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      font-weight: 600
+    }
+
+    .sgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 20px;
+      align-items: start
+    }
+
+    .mo {
+      position: fixed;
+      inset: 0;
+      background: #0f172a99;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px
+    }
+
+    .mo>div {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: auto
+    }
+
+    .mo h3 {
+      margin-bottom: 10px
+    }
+
+    .mo p {
+      margin: 8px 0
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 999px;
+      z-index: 200;
+      font-size: .92rem;
+      max-width: 90vw
+    }
+
+    @media(max-width:960px) {
+
+      .hero,
+      .two,
+      .dark,
+      .split,
+      .dg,
+      .sgrid {
+        grid-template-columns: 1fr
+      }
+
+      .lnk {
+        display: none
+      }
+
+      .app {
+        grid-template-columns: 1fr
+      }
+
+      .side {
+        position: fixed;
+        left: -290px;
+        width: 270px;
+        z-index: 50;
+        transition: .25s;
+        box-shadow: 0 0 30px #0004
+      }
+
+      .side.open {
+        left: 0
+      }
+
+      .ham {
+        display: block
+      }
+
+      .cs {
+        grid-template-columns: 1fr;
+        height: auto
+      }
+
+      .hist {
+        display: flex;
+        gap: 8px;
+        overflow: auto;
+        padding: 10px
+      }
+
+      .hist .it {
+        flex: none;
+        max-width: 200px
+      }
+
+      .chat {
+        height: 75vh
+      }
+    }
+
+    @media(max-width:560px) {
+
+      .opts,
+      .f2,
+      .kp {
+        grid-template-columns: 1fr
+      }
+
+      .pg {
+        padding: 18px 14px
+      }
+
+      .dark {
+        padding: 24px
+      }
+
+      .t td,
+      .t th {
+        padding: 12px 8px;
+        font-size: .85rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* ===== helpers & data ===== */
+    const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+    let DB = JSON.parse(localStorage.getItem('edudebt') || '{"users":{},"cur":null}');
+    const save = () => localStorage.setItem('edudebt', JSON.stringify(DB));
+    const U = () => DB.users[DB.cur];
+    const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
+    const mon = n => (U() && U().tg.mask) ? '₹ ••••••' : inr(n);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const emi = (P, r, n) => { const i = r / 1200; return i ? P * i / (1 - Math.pow(1 + i, -n)) : P / n };
+    const sim = (P, r, e, x = 0) => { const i = r / 1200; let b = P, m = 0, t = 0; while (b > 0.5) { const it = b * i; if (e + x <= it + .01) return { m: 999, int: Infinity }; t += it; b += it - e - x; if (++m > 999) break } return { m, int: t } };
+    const addM = m => { const d = new Date(); d.setMonth(d.getMonth() + m); return d.toLocaleString('en-IN', { month: 'short', year: 'numeric' }) };
+    const draft = () => JSON.parse(sessionStorage.getItem('draft') || '{}');
+    const FOCUS = ['Active Loan Repayment & Optimization', 'Moratorium / In-College Planning', 'Upcoming Graduation & Job Transition', 'Parent / Co-Borrower Guidance'];
+    const STAGE = ['Undergrad / Postgrad', 'Final-Year Student', 'Early Career (0–3 Yrs)', 'Abroad Study / MS Candidate'];
+    const PRIO = ['Become 100% Debt-Free 2–3 Years Early', 'Maximize Section 80E Tax Deduction', 'Keep Monthly EMI Minimum for Flexibility', 'Refinance at Lower Interest Rate'];
+    const PSH = ['Fast-Track Payoff', '80E Tax Max', 'Low-EMI Flexibility', 'Refinance Focus'];
+    let page = 'landing', authTab = 'login', curChat = -1, scX = 3000;
+    const logo = `<span class=lg><svg width=34 height=34 viewBox="0 0 34 34"><rect width=34 height=34 rx=9 fill="#4338ca"/><path d="M8 22l6-6 4 4 8-9" stroke="#fff" stroke-width=2.5 fill=none stroke-linecap=round /><circle cx=26 cy=11 r=2.5 fill="#10b981"/></svg>EduDebt<b>.AI</b></span>`;
+    const foot = () => `<footer class=foot><span>256-Bit SSL Encryption</span><span>RBI Account Aggregator Partner</span><span>ISO 27001 Certified</span><span>Student Privacy Guarantee</span><span>© 2025 EduDebt AI</span></footer>`;
+    function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.append(d); setTimeout(() => d.remove(), 2800) }
+    function modal(h) { closeM(); const d = document.createElement('div'); d.className = 'mo'; d.id = 'mo'; d.innerHTML = '<div>' + h + '</div>'; d.onclick = e => { if (e.target === d) closeM() }; document.body.append(d) }
+    function closeM() { const m = $('#mo'); if (m) m.remove() }
+    const card3 = a => `<div class=g3>${a.map(x => `<div class=k><small>${x[0]}</small><b class="${x[3] || ''}">${x[1]}</b><span class="mu sm">${x[2] || ''}</span></div>`).join('')}</div>`;
+
+    /* ===== router ===== */
+    function go(p) {
+      if (['dash', 'scen', 'ai', 'settings'].includes(p)) {
+        if (!U()) { page = 'login'; return render(1) }
+        if (!U().loan) { page = U().persona.done ? 'loan' : 'persona'; return render(1) }
+      }
+      if ((p === 'persona' || p === 'loan') && !U()) { page = 'login'; return render(1) }
+      closeM(); page = p; render()
+    }
+    function render(blocked) {
+      const a = $('#app'); a.onclick = null; a.innerHTML = PAGES[page](); window.scrollTo(0, 0);
+      if (AFTER[page]) AFTER[page]();
+      if (blocked) toast('Please log in first');
+    }
+
+    /* ===== PAGE 1: LANDING ===== */
+    const PAGES = {
+      landing: () => `<header class=top><div>${logo}<nav class=lnk><a>Features</a><a>How It Works</a><a>Loan Calculator</a><a>Resources</a><a>Student Stories</a></nav><span><button class=btn2 data-login>Log in</button> <button class=btn data-login>Get Started Free</button></span></div></header>
+<section class="wrap hero"><div><h1>Understand Your Education Loan. Plan Your Future.</h1><p class=mu>AI-powered loan planning designed for students. Turn confusing interest rates, moratoriums and subsidy rules into a crystal-clear repayment roadmap.</p><div class=row><button class=btn>Calculate My Loan →</button><button class=btn2>See How It Works</button></div><p class="mu sm">★ 4.9/5 &nbsp;Trusted by 25,000+ students across 180+ colleges</p></div>
+<div class=card><small class=mu>OUTSTANDING LOAN</small><h1 style="font-size:2.4rem">₹5,40,000</h1><div class=bars><i style="height:100%"></i><i style="height:103%"></i><i style="height:84%"></i><i style="height:66%"></i><i style="height:46%"></i><i style="height:20%"></i></div></div></section>
+<section class="wrap stats"><div><b>₹1,84,000</b><span class=mu>Average Student Savings</span></div><div><b>3.2 Years</b><span class=mu>Faster Debt Freedom</span></div><div><b>45+ Lenders</b><span class=mu>Supported Banks &amp; NBFCs</span></div><div><b>₹0 Fee</b><span class=mu>Free for College Students</span></div></section>
+<section class=wrap><h2 class=c style="font-size:2rem;margin:50px 0 10px">Take control in three student-friendly steps</h2><div class=steps>
+<div class=card><b class=n>1</b><h3 style="margin:14px 0 8px">Connect or Upload Details</h3><p class=mu>Snap a photo of your loan sanction paper or connect your balance.</p></div>
+<div class=card><b class=n>2</b><h3 style="margin:14px 0 8px">AI Finds Subsidies &amp; Loopholes</h3><p class=mu>EduDebt checks CSIS, minority waivers and 80E deductions.</p></div>
+<div class=card><b class=n>3</b><h3 style="margin:14px 0 8px">Execute Your Payoff Sprint</h3><p class=mu>Get smart month-to-month recommendations to kill your loan early.</p></div></div>
+<div class=dark><div><h2>Know your real debt-free date in 60 seconds.</h2><br><button class=btn2>Launch Full Free Calculator</button></div>
+<div class=card><h3>Quick Loan Checkup</h3><label class=l>Total Loan Amount (₹)</label><div class=in>₹5,40,000</div><div class=f2><div><label class=l>Interest Rate</label><div class=in>9.25%</div></div><div><label class=l>Tenure</label><div class=in>7 Years</div></div></div><p class="mu sm" style="margin-top:14px">Estimated EMI: <b>${inr(emi(540000, 9.25, 84))}</b> / month</p></div></div></section>${foot()}`,
+
+      /* ===== PAGE 2: LOGIN / SIGN UP ===== */
+      login: () => {
+        const d = draft(), s = authTab === 'signup'; return `<header class=top><div><span class=row style="align-items:center;margin:0">${logo}<span class=pill>RBI Regulated AA Compliant</span></span><span class=row style="align-items:center;margin:0"><a onclick="setTab('signup')" style="color:var(--mu)">Create Free Account</a><button class=btn onclick="setTab('login')">Sign In</button></span></div></header>
+<main class="wrap two"><div><h1>Crush your student debt years ahead of schedule.</h1><p class=mu style="margin:26px 0 40px;font-size:1.1rem">Join over 42,000+ Indian students saving an average of ₹1.48 Lakhs through AI-optimized velocity repayment.</p>
+<div class=card><div class=tr style="padding:0"><b>Real-Time Payoff Projection</b><span class="pill g">⚡ ₹78,420 Saved</span></div><div class=pb style="margin-top:34px"><i style="width:100%;background:#e2e8f0"></i></div><div class=pb style="margin-top:0"><i style="width:46%"></i></div><p class="mu sm">AI Copilot Logic: Directing ₹2,200 micro-surplus to high-interest tranches curbs total interest by 21.4%.</p></div>
+<div class=g3><div class=card><b>₹140+ Cr</b><span class="mu sm">Loans Tracked</span></div><div class=card><b>38+ Banks</b><span class="mu sm">Direct AA Sync</span></div><div class=card><b>₹1.48 L</b><span class="mu sm">Avg. Interest Saved</span></div></div></div>
+<div class="card auth"><div class=tabs><button class="${s ? '' : 'on'}" onclick="setTab('login')">Log In</button><button class="${s ? 'on' : ''}" onclick="setTab('signup')">Create Account</button></div>
+<h2 style="margin-bottom:18px">${s ? 'Create your cockpit' : 'Welcome back to your cockpit'}</h2>
+<button class=btn2 style="width:100%;margin:6px 0;padding:14px" onclick="googleFlow()">Continue with Google</button>
+<button class=btn2 style="width:100%;margin:6px 0;padding:14px" onclick="otpFlow()">Instant Mobile OTP Login <span class="pill g">Fastest</span></button>
+<form onsubmit="authSubmit(event)" novalidate>${s ? `<label class=l>Full Name</label><input id=f_name class=in value="${esc(d.name)}" oninput=saveDraft() placeholder="e.g. Diego Alvarez" autocomplete=name>` : ''}
+<label class=l>Email or Mobile Number</label><input id=f_id class=in value="${esc(d.id)}" oninput=saveDraft() placeholder="e.g. email@iitd.ac.in or 98765 43210" autocomplete=username>
+<label class=l>Password</label><input id=f_pw type=password class=in value="${esc(d.pw)}" oninput=saveDraft() placeholder="Enter your security password" autocomplete=current-password>
+${s ? `<label class=l>Confirm Password</label><input id=f_pw2 type=password class=in value="${esc(d.pw2)}" oninput=saveDraft() placeholder="Re-enter password">` : ''}
+<div id=err class=err></div><button class="btn big">${s ? 'Create Account' : 'Log Into EduDebt AI'} →</button></form>
+<p class="mu sm c" style="margin-top:16px">${s ? 'Already have an account? <a onclick="setTab(\'login\')">Log in</a>' : 'Don\'t have an account yet? <a onclick="setTab(\'signup\')">Sign up in 30 seconds</a>'}</p></div></main>${foot()}`
+      },
+
+      /* ===== PAGE 3: PERSONA ===== */
+      persona: () => {
+        const p = U().persona; const o = (arr, k) => arr.map((t, i) => `<button class="opt ${p[k] === i ? 'on' : ''}" onclick="pick('${k}',${i})">${t}</button>`).join('');
+        return `<header class=top><div><span class=row style="align-items:center;margin:0">${logo}<span class=pill>RBI Regulated AA Compliant</span></span></div></header>
+<main class=wrap><div class=steps3><span>1. Account Security</span><span class=on>2. Student Persona &amp; Objectives</span><span>3. Connect &amp; Input Loan</span></div>
+<h1 style="font-size:2.6rem">Tailor Your AI Debt Freedom Plan</h1><p class=mu style="margin:10px 0 26px;max-width:46em">Map your academic stage and priorities so EduDebt.AI can uncover moratorium reliefs and Section 80E tax shields.</p>
+<div class=split><div><div class=card><h2>What is your primary focus right now?</h2><div class=opts>${o(FOCUS, 'focus')}</div></div><br>
+<div class=card><h2>What describes your current academic or career stage?</h2><div class=opts>${o(STAGE, 'stage')}</div></div><br>
+<div class=card><h2>What is your #1 financial priority with this debt?</h2><div class=chips>${PRIO.map((t, i) => `<button class="chip ${p.prio === i ? 'on' : ''}" onclick="pick('prio',${i})">${t}</button>`).join('')}</div></div></div>
+<div class=card style="position:sticky;top:80px"><span class="gr sm" style="font-weight:700">● AI CALIBRATION LIVE</span><div class="banner b" id=plabel style="margin:14px 0;padding:24px 18px;font-size:1.05rem"></div>
+<div class=kp><div class=k><small>Projected Timeline</small><b class=pu id=ptl></b></div><div class=k><small>Interest Saved</small><b class=gr id=pis></b></div></div>
+<p style="margin-top:22px;font-weight:600" class=sm>Simulate Extra Monthly Paydown <span id=pxl class=pu></span></p><input type=range id=px min=0 max=20000 step=500 value="${U().extra || 0}" oninput=calPersona()>
+<p class="mu sm">Illustration on a ₹5,40,000 loan at 9.5% over 84 months until you add your own loan details.</p></div></div>
+<div class=acts><button class=btn2 onclick="go('login')">← Back to Step 1</button><button class=btn onclick="savePersona()">Save &amp; Continue to Loan Connection →</button></div></main>${foot()}`
+      },
+
+      /* ===== PAGE 4: CONNECT LOAN ===== */
+      loan: () => {
+        const l = U().loan || U().draftLoan || {}; const v = k => l[k] ?? ''; return `<header class=top><div><span class=row style="align-items:center;margin:0">${logo}<span class=pill>RBI Regulated AA Compliant</span></span></div></header>
+<main class=wrap><div class=steps3><span>1. Account Security</span><span>2. Student Persona &amp; Objectives</span><span class=on>3. Connect &amp; Input Loan</span></div>
+<h1 style="font-size:2.6rem;margin-bottom:24px">Connect Your Education Loan</h1><div class=split><div>
+<div class=card><div class=row style="align-items:center;margin:0"><h2>Instant Bank Sync via RBI-AA</h2><span class="pill g">Recommended</span></div><br><button class="btn big" onclick="aaFlow()">Connect via OTP / Account Aggregator →</button></div><br>
+<div class=card><h2>Upload Sanction Letter (PDF / Scan)</h2><br><label class=drop id=drop for=fl>Drop sanction letter PDF here or Browse<input id=fl type=file accept=".pdf,image/*" hidden></label><p id=fn class="mu sm" style="margin-top:80px"></p></div><br>
+<div class=card><h2>Manual Calibration</h2><label class=l>Lender &amp; Education Scheme</label><input id=l_len class=in value="${esc(v('lender'))}" placeholder="State Bank of India – SBI Scholar Loan Scheme" oninput=calLoan()>
+<div class=f2><div><label class=l>Total Sanctioned Limit</label><input id=l_lim type=number min=0 class=in value="${v('limit')}" placeholder="₹ 0,00,000" oninput=calLoan()></div><div><label class=l>Current Outstanding Balance</label><input id=l_bal type=number min=0 class=in value="${v('bal')}" placeholder="₹ 0,00,000" oninput=calLoan()></div>
+<div><label class=l>Effective Interest Rate (% p.a.)</label><input id=l_rate type=number step=.05 min=0 class=in value="${v('rate')}" placeholder="0.00% p.a." oninput=calLoan()></div><div><label class=l>Repayment Tenure (Years)</label><input id=l_ten type=number step=.5 min=0 class=in value="${l.months ? +(l.months / 12).toFixed(2) : ''}" placeholder="0 Years" oninput=calLoan()></div></div>
+<label class="banner b" style="display:flex;gap:10px;cursor:pointer"><input type=checkbox id=l_mor ${l.mor ? 'checked' : ''}> Moratorium Period Active — Simple Interest Applied</label>
+<label class="banner gn" style="display:flex;gap:10px;cursor:pointer"><input type=checkbox id=l_csis ${l.csis ? 'checked' : ''}> CSIS Eligible • Section 80E Eligible</label><div id=lerr class=err></div></div></div>
+<div class=card style="position:sticky;top:80px"><span class="gr sm" style="font-weight:700">AI AMORTIZATION ENGINE</span><p class="mu sm" style="margin-top:12px">ESTIMATED MONTHLY REPAYMENT (EMI)</p><h1 style="font-size:2.6rem" id=pe>₹0 /month</h1>
+<div class=kp><div class=k><small>Total Repayment</small><b id=pt>₹0</b><span class="mu sm" id=pm></span></div><div class=k><small>Lifetime Interest</small><b class=rd id=pi>₹0</b><span class="mu sm" id=pr></span></div></div>
+<p style="margin:18px 0;line-height:1.9" class=sm>✔ CSIS Simple Interest Exemption <span class=mu>(if eligible)</span><br>✔ Tier-1 Concession Verified <span class=mu>(by lender)</span><br>✔ Section 80E Tax Shield</p>
+<div class=kp><div class=k><small>Projected Timeline</small><b class=pu id=ptl2>—</b></div><div class=k><small>Interest Saved</small><b class=gr id=pis2>—</b></div></div><p class="mu sm" id=pnote style="margin-top:12px"></p></div></div>
+<div class=acts><button class=btn2 onclick="saveLoan(true)">Save Draft</button><button class=btn onclick="saveLoan(false)">Save &amp; Continue to Dashboard →</button></div></main>${foot()}`
+      },
+
+      /* ===== PAGE 5: DASHBOARD ===== */
+      dash: () => {
+        const c = ctx(), u = c.u, l = c.l; const paid = Math.max(l.limit - l.bal, 0), pct = l.limit ? Math.round(paid / l.limit * 100) : 0;
+        const bi = sim(l.bal, l.rate, c.e, c.x + c.e / 12), dw = sim(l.bal, l.rate, c.e, c.x + 20000 / 12);
+        const y1 = yearInt(l.bal, l.rate, c.e + c.x); const ser = series(l.bal, l.rate, c.e, c.x);
+        return shell('dash', `<div class=hb><div><h1 style="font-size:2.3rem">Welcome back, ${esc(u.name.split(' ')[0])} 👋</h1><p>Your AI Debt Repayment Plan is on track to save ${inr(c.save)} in interest and wrap up ${c.ahead} months ahead of schedule.</p></div><div><button class=btn onclick="payModal(2000)">⚡ Boost Next EMI by ₹2,000</button></div></div>
+<div class=kg><div class=k><small>Total Outstanding</small><b>${mon(l.bal)}</b><span class="mu sm">${pct}% cleared</span></div><div class=k><small>Monthly EMI</small><b>${inr(c.e)}</b><span class="mu sm">Auto-pay ${u.tg.emi ? 'reminders on' : 'reminders off'}</span></div><div class=k><small>Weighted Interest Rate</small><b class=gr>${l.rate}% p.a.</b><span class="mu sm">${l.rate <= 10.5 ? 'Below' : 'Above'} typical education-loan range (~9–11%)</span></div><div class=k><small>Debt-Free Countdown</small><b class=pu>${c.cur.m >= 999 ? '—' : c.cur.m + ' Months'}</b><span class="mu sm">Accelerated by ${c.ahead} months</span></div></div>
+<div class=dg><div class=card><h2>Amortization &amp; Principal Progress</h2><div class=kp style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"><div class=k><small>Principal Paid</small><b>${mon(paid)}</b></div><div class=k><small>Remaining</small><b>${mon(l.bal)}</b></div><div class=k><small>Projected Interest</small><b>${inr(c.cur.int)}</b></div></div>
+<div class=cb>${ser.map(s => `<i style="height:${Math.max(s.b / l.bal * 100, 3)}%" data-t="Month ${s.m}: ${inr(s.b)}"></i>`).join('')}</div><p class="mu sm" style="margin-top:8px">Outstanding balance over time (hover a bar).</p></div>
+<div style="display:grid;gap:22px"><div class=card><h2>Ask AI Advisor</h2><div class=ai id=mini>${answer('increase emi by 1500').h}</div><form onsubmit="miniAsk(event)"><input id=mq class=in style="border-radius:999px" placeholder="Ask anything about your loan…"></form></div>
+<div class=card><h2>Payment Schedule</h2><p style="margin-top:14px">Next EMI Installment <b>${inr(c.e)}</b><br><span class=mu>Due on the 5th • ${u.tg.emi ? 'Reminder on' : 'Reminder off'}</span></p></div></div></div>
+<h2 style="margin:34px 0 0">AI Repayment Optimization Engine</h2><div class=sg>
+<div class=card><h3>Bi-weekly EMI Split</h3><p class=mu>Interest Saved ${inr(c.cur.int - bi.int)} • ${c.cur.m - bi.m} Months Shortened</p><button class=btn onclick="applyBi()">Apply Strategy</button></div>
+<div class=card><h3>Diwali Bonus Surge</h3><p class=mu>Interest Saved ${inr(c.cur.int - dw.int)} • ${c.cur.m - dw.m} Months Shortened <small>(₹20,000 yearly, approx.)</small></p><button class=btn2 onclick="payModal(20000)">Simulate Payoff</button></div>
+<div class=card><h3>Section 80E Rebate</h3><p class=mu>Interest in next 12 months ${inr(y1)} • deductible under 80E*</p><button class=btn2 onclick="taxModal()">View Tax Guide</button></div></div>`)
+      },
+
+      /* ===== PAGE 6: AI COPILOT ===== */
+      ai: () => {
+        const u = U(), ch = u.chats[curChat]; const sg = ['What happens if I pay ₹3,000 extra every month?', 'Section 80E tax deduction', 'What if I pay a ₹50,000 bonus once?', 'Refinance at 8.5%?', 'CSIS moratorium', 'What is my debt-free date?'];
+        return shell('ai', `<div style="display:contents"></div><div class=cs><div class=hist><button class="btn2 w" onclick="newChat()">✎ New Chat</button><p class="mu sm" style="margin:16px 6px 6px;font-weight:600">RECENT CHATS</p>${u.chats.map((c, i) => `<a class="it ${i === curChat ? 'on' : ''}" style="color:var(--tx);font-weight:500" onclick="openChat(${i})">${esc(c.t)}</a>`).join('') || '<p class="mu sm" style="padding:6px">No chats yet.</p>'}</div>
+<div class=chat><div class=msgs id=msgs>${ch ? ch.m.map(m => `<div class="m ${m.r}">${m.h}</div>`).join('') : `<div class="m a"><h3>Hi ${esc(u.name.split(' ')[0])}, I'm EduDebt Copilot</h3><p class=mu style="margin-top:6px">I calculate with your real loan numbers (${mon(u.loan.bal)} at ${u.loan.rate}%). Ask about prepayments, lump sums, refinancing, 80E, CSIS/moratorium, EMI or your debt-free date.</p><div class=sug>${sg.map(s => `<button class=chip onclick="send(this.textContent)">${s}</button>`).join('')}</div></div>`}</div>
+<form class=cin onsubmit="sendForm(event)"><input id=cq placeholder="Ask EduDebt Copilot anything about prepayments, 80E deductions, moratorium, or refinancing…" autocomplete=off><button class=btn>Send</button></form></div></div>`, 1)
+      },
+
+      /* ===== PAGE 7: SCENARIOS ===== */
+      scen: () => {
+        const u = U(); return shell('scen', `<h1 style="font-size:2.3rem">Scenario Comparison</h1><p class=mu id=scsub></p>
+<div class=card style="margin:18px 0;display:flex;gap:20px;align-items:center;flex-wrap:wrap"><label for=scx style="font-weight:700">Extra monthly prepayment</label><input type=range id=scr min=0 max=30000 step=500 style="flex:1;min-width:180px" oninput="setSc(this.value)"><input id=scx type=number min=0 step=500 class=in style="width:130px" oninput="setSc(this.value)"></div><div id=scb></div>
+<div class=acts style="justify-content:space-between"><button class=btn2 onclick="$('#scx').focus();$('#scx').select()">Adjust Variables / New Scenario</button><span class=row style="margin:0"><button class=btn2 onclick="saveSc()">Save Scenario</button><button class=btn onclick="applySc()">Apply Strategy to Repayment Schedule</button></span></div><div id=saved></div>`)
+      },
+
+      /* ===== PAGE 8: SETTINGS ===== */
+      settings: () => {
+        const u = U(), c = ctx(), dti = u.income ? c.e / u.income * 100 : 0;
+        const T = (k, t) => `<div class=tr><span>${t}</span><label class=sw><input type=checkbox ${u.tg[k] ? 'checked' : ''} onchange="tg('${k}',this.checked)"><span></span></label></div>`;
+        return shell('settings', `<div class=tr style="align-items:flex-start"><div><h1 style="font-size:2.3rem">Profile &amp; Settings</h1><p class=mu>Manage your personal credentials, education loan parameters, privacy preferences and notifications.</p></div><span class="pill g">Account Active</span></div>
+<div class=sgrid><div style="display:grid;gap:22px"><div class=card><h2>Personal Information</h2><label class=l>Name</label><input id=s_nm class=in value="${esc(u.name)}"><label class=l>College / Course</label><input id=s_co class=in value="${esc(u.college)}" placeholder="e.g. B.Tech '24, IIT Delhi"><p class="mu sm" style="margin-top:12px">LOGIN ID &nbsp;<b style="color:var(--tx)">${esc(u.id)}</b></p><br><button class=btn onclick="saveProfile()">Save Profile</button></div>
+<div class=card><h2>Income &amp; Career Status</h2><label class=l>Monthly Take-Home (₹)</label><input id=s_inc type=number min=0 class=in value="${u.income}"><label class=l>Current Employer</label><input id=s_emp class=in value="${esc(u.employer)}" placeholder="e.g. TechCorp Solutions"><p style="margin:14px 0"><span class=mu>DEBT-TO-INCOME</span> <b class="${dti < 35 ? 'gr' : 'rd'}">${dti.toFixed(1)}%</b> <span class=mu>(Optimal &lt; 35%)</span></p><button class=btn onclick="saveProfile()">Save Income</button></div>
+<div class=card><h2>Your Data &amp; Account</h2><br><div class=row><button class=btn2 onclick="exportModal()">Export Loan History (CSV / PDF)</button><button class="btn2 danger" onclick="delModal()">Delete account</button></div></div></div>
+<div style="display:grid;gap:22px"><div class=card><h2>Loan Information</h2><p style="margin:12px 0;font-weight:600">${esc(u.loan.lender)}</p><div class=kp><div class=k><small>Outstanding Principal</small><b>${mon(u.loan.bal)}</b></div><div class=k><small>Monthly EMI</small><b>${inr(c.e)}</b><span class="mu sm">Due 5th of month</span></div></div><br><button class=btn2 onclick="go('loan')">Edit Loan Details</button></div>
+<div class=card><h2>Privacy &amp; AI Controls</h2>${T('ai', 'AI Copilot Model Training')}${T('mask', 'Privacy Mode (Mask Balances)')}${T('aa', 'RBI Account Aggregator Sync')}</div>
+<div class=card><h2>Notifications</h2>${T('emi', 'EMI Payment Reminders')}${T('bm', 'Benchmark &amp; EBLR Alerts')}${T('tax', 'Section 80E Tax Certificate')}</div></div></div>`)
+      }
+    };
+
+    /* ===== shared app shell & context ===== */
+    function ctx() { const u = U(), l = u.loan, e = l.emi || emi(l.bal, l.rate, l.months), x = u.extra || 0; const base = sim(l.bal, l.rate, e, 0), cur = sim(l.bal, l.rate, e, x); return { u, l, e, x, base, cur, save: base.int - cur.int, ahead: Math.max(l.months - cur.m, 0) } }
+    function yearInt(b, r, pay) { let t = 0; const i = r / 1200; for (let k = 0; k < 12 && b > 0; k++) { const it = b * i; t += it; b += it - pay } return t }
+    function series(P, r, e, x) { const tot = Math.min(sim(P, r, e, x).m, 600), n = 8, step = Math.max(1, Math.ceil(tot / (n - 1))), i = r / 1200; let b = P, out = [{ m: 0, b: P }]; for (let m = 1; m <= tot; m++) { b = Math.max(b + b * i - e - x, 0); if (m % step === 0 || m === tot) out.push({ m, b }) } return out }
+    function shell(act, body, full) {
+      const u = U(), l = u.loan, c = ctx(), pct = l.limit ? Math.round(Math.max(l.limit - l.bal, 0) / l.limit * 100) : 0;
+      const nv = [['dash', 'Dashboard'], ['scen', 'Scenario Comparison'], ['ai', 'Ask AI'], ['settings', 'Settings']];
+      return `<div class=app><aside class=side id=side><div style="padding:6px 8px 18px">${logo}</div>${nv.map(n => `<a class="nv ${n[0] === act ? 'on' : ''}" onclick="go('${n[0]}')">${n[1]}</a>`).join('')}
+<div class=lc><small class=mu>${esc(l.lender.split('–').pop().trim() || 'Loan')}</small><b>${mon(l.bal)}</b><span class="gr sm">${pct}% paid off • Limit ${mon(l.limit)}</span></div><div style="padding:14px 8px 0"><b>${esc(u.name)}</b><br><span class="mu sm">${esc(u.college || 'Student')}</span></div></aside>
+<div class=main><div class=tb><button class=ham onclick="$('#side').classList.toggle('open')" aria-label=Menu>☰</button><span class=pill style="background:#f1f5f9;color:var(--tx)">${esc(l.lender.split('–').pop().trim() || 'Loan')} (${l.rate}%)</span><span class="pill g">Target: ${c.cur.m >= 999 ? '—' : addM(c.cur.m)} • ${(c.ahead / 12).toFixed(1)} yrs ahead of schedule!</span><span class=sp></span><button class=btn onclick="payModal(5000)">Simulate Payment</button><button class=av onclick="$('#menu').classList.toggle('on')" aria-label=Account>${esc(u.name[0].toUpperCase())}</button><div class=menu id=menu><button class="btn2 w" onclick="go('settings')">Profile</button><button class="btn2 w" onclick="logout()">Log out</button></div></div>
+${full ? body : `<div class=pg>${body}</div>`}</div></div>`
+    }
+
+    /* ===== AFTER-RENDER HOOKS ===== */
+    const AFTER = {
+      landing() { $('#app').onclick = e => { if (e.target.closest('[data-login]')) return go('login'); e.preventDefault(); modal(`<h3>Please log in first</h3><p class=mu>Log in or create a free account to use EduDebt.AI.</p><br><button class=btn onclick="closeM();go('login')">Go to Login</button> <button class=btn2 onclick="closeM()">Close</button>`) } },
+      persona() { calPersona() }, loan() {
+        calLoan(); const d = $('#drop'), f = $('#fl'); f.onchange = () => f.files[0] && upload(f.files[0]);
+        ['dragover', 'dragenter'].forEach(ev => d.addEventListener(ev, e => { e.preventDefault(); d.classList.add('hv') }));['dragleave', 'drop'].forEach(ev => d.addEventListener(ev, e => { e.preventDefault(); d.classList.remove('hv') })); d.addEventListener('drop', e => e.dataTransfer.files[0] && upload(e.dataTransfer.files[0]))
+      },
+      ai() { const m = $('#msgs'); m.scrollTop = m.scrollHeight },
+      scen() { $('#scx').value = scX; $('#scr').value = scX; drawSc(); drawSaved() }
+    };
+
+    /* ===== AUTH ===== */
+    function setTab(t) { saveDraft(); authTab = t; page = 'login'; render() }
+    function saveDraft() { const g = i => $('#' + i) ? $('#' + i).value : undefined, d = draft();['id', 'pw', 'name', 'pw2'].forEach(k => { const v = g('f_' + k); if (v !== undefined) d[k] = v }); sessionStorage.setItem('draft', JSON.stringify(d)) }
+    const err = m => { $('#err').textContent = m };
+    function normId(v) { v = v.trim().toLowerCase(); if (/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(v)) return v; if (/[^\d\s+\-]/.test(v)) return ''; const d = v.replace(/\D/g, '').slice(-10); return /^[6-9]\d{9}$/.test(d) ? d : '' }
+    const newUser = (id, name, pw) => ({ id, name, pw, college: '', persona: { focus: 0, stage: 0, prio: 0 }, extra: 0, income: 45000, employer: '', tg: { ai: 0, mask: 0, aa: 1, emi: 1, bm: 1, tax: 1 }, saved: [], chats: [] });
+    function authSubmit(e) {
+      e.preventDefault(); saveDraft(); const id = normId($('#f_id').value), pw = $('#f_pw').value;
+      if (!id) return err('Enter a valid email address or 10-digit mobile number.');
+      if (authTab === 'login') { const u = DB.users[id]; if (!u) return err('No account found. Switch to Create Account.'); if (!pw || u.pw !== pw) return err('Incorrect password.'); return loginAs(id) }
+      const nm = $('#f_name').value.trim(); if (nm.length < 2) return err('Enter your full name.'); if (pw.length < 6) return err('Password must be at least 6 characters.'); if (pw !== $('#f_pw2').value) return err('Passwords do not match.'); if (DB.users[id]) return err('An account already exists. Please log in.');
+      DB.users[id] = newUser(id, nm, pw); save(); loginAs(id)
+    }
+    function loginAs(id) { DB.cur = id; save(); toast('Welcome, ' + U().name.split(' ')[0] + '!'); go(U().loan ? 'dash' : 'persona') }
+    function googleFlow() { modal(`<h3>Continue with Google</h3><p class=mu>Demo: enter the Google email to sign in with.</p><input id=gm class=in placeholder="you@gmail.com"><div id=gerr class=err></div><button class="btn big" onclick="googleGo()">Continue</button>`) }
+    function googleGo() { const id = normId($('#gm').value); if (!id.includes('@')) return $('#gerr').textContent = 'Enter a valid email.'; if (!DB.users[id]) { DB.users[id] = newUser(id, id.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), ''); save() } closeM(); loginAs(id) }
+    function otpFlow() { modal(`<h3>Instant Mobile OTP Login</h3><input id=om class=in placeholder="10-digit mobile number" inputmode=numeric><div id=oerr class=err></div><button class="btn big" onclick="otpSend()">Send OTP</button>`) }
+    function otpSend() {
+      const id = normId($('#om').value); if (!id || id.includes('@')) return $('#oerr').textContent = 'Enter a valid 10-digit mobile number.';
+      modal(`<h3>Enter OTP</h3><p class=mu>Demo mode: no SMS is sent. Use code <b>123456</b>.</p><input id=oc class=in placeholder="6-digit OTP" inputmode=numeric maxlength=6><div id=oerr class=err></div><button class="btn big" onclick="otpVerify('${id}')">Verify &amp; Log in</button>`)
+    }
+    function otpVerify(id) { if ($('#oc').value !== '123456') return $('#oerr').textContent = 'Incorrect OTP. Use 123456 in demo mode.'; if (!DB.users[id]) { DB.users[id] = newUser(id, 'Student', ''); save() } closeM(); loginAs(id) }
+    function logout() { DB.cur = null; save(); toast('Logged out'); go('login') }
+
+    /* ===== PERSONA ===== */
+    function pick(k, i) { U().persona[k] = i; save(); const x = $('#px').value; render(); $('#px').value = x; calPersona() }
+    function basis() { const l = U().loan; return l ? { bal: l.bal, rate: l.rate, e: l.emi || emi(l.bal, l.rate, l.months) } : { bal: 540000, rate: 9.5, e: emi(540000, 9.5, 84) } }
+    function calPersona() {
+      const p = U().persona, b = basis(), x = +$('#px').value, a = sim(b.bal, b.rate, b.e, 0), c = sim(b.bal, b.rate, b.e, x);
+      $('#plabel').textContent = STAGE[p.stage] + ' • ' + PSH[p.prio]; $('#pxl').textContent = '+' + inr(x) + '/mo';
+      $('#ptl').textContent = c.m + ' Months'; $('#pis').textContent = inr(a.int - c.int) + (x ? '' : ' (add extra to see)')
+    }
+    function savePersona() { const u = U(); u.persona.done = 1; u.extra = +$('#px').value || u.extra; save(); go('loan') }
+
+    /* ===== LOAN ===== */
+    function readLoan() { const g = i => $('#' + i).value; return { lender: g('l_len').trim(), limit: +g('l_lim'), bal: +g('l_bal'), rate: +g('l_rate'), months: Math.round(+g('l_ten') * 12), mor: $('#l_mor').checked, csis: $('#l_csis').checked } }
+    function calLoan() {
+      const l = readLoan(), ok = l.bal > 0 && l.rate > 0 && l.months > 0; if (!ok) { ['pe', 'pt', 'pi'].forEach(i => $('#' + i).textContent = '₹0'); $('#pe').textContent = '₹0 /month'; $('#pm').textContent = ''; $('#pr').textContent = ''; $('#ptl2').textContent = '—'; $('#pis2').textContent = '—'; $('#pnote').textContent = 'Enter balance, rate and tenure to see your projection.'; return }
+      const e = emi(l.bal, l.rate, l.months), tot = e * l.months, x = U().extra || Math.round(e * .2 / 500) * 500 || 500, a = sim(l.bal, l.rate, e, 0), c = sim(l.bal, l.rate, e, x);
+      $('#pe').textContent = inr(e) + ' /month'; $('#pt').textContent = inr(tot); $('#pm').textContent = 'over ' + l.months + ' months'; $('#pi').textContent = inr(tot - l.bal); $('#pr').textContent = 'at ' + l.rate + '%';
+      $('#ptl2').textContent = c.m + ' Months'; $('#pis2').textContent = inr(a.int - c.int); $('#pnote').textContent = 'Projection if you add ' + inr(x) + '/month. Estimates assume monthly reducing balance.'
+    }
+    function saveLoan(isDraft) {
+      const l = readLoan(), u = U();
+      if (isDraft) { u.draftLoan = l; save(); return toast('Draft saved') }
+      const m = m => $('#lerr').textContent = m; if (!l.lender) return m('Enter your lender and scheme.'); if (!(l.bal > 0)) return m('Enter your current outstanding balance.'); if (!(l.limit >= l.bal)) return m('Sanctioned limit must be at least the outstanding balance.');
+      if (!(l.rate > 0 && l.rate <= 30)) return m('Enter an interest rate between 0 and 30%.'); if (!(l.months > 0)) return m('Enter the repayment tenure in years.');
+      l.emi = Math.round(emi(l.bal, l.rate, l.months)); u.loan = l; delete u.draftLoan; save(); toast('Loan connected'); go('dash')
+    }
+    function fillLoan(o) { $('#l_len').value = o.lender; $('#l_lim').value = o.limit; $('#l_bal').value = o.bal; $('#l_rate').value = o.rate; $('#l_ten').value = o.months / 12; $('#l_csis').checked = true; calLoan() }
+    function aaFlow() { modal(`<h3>Connect via Account Aggregator</h3><p class=mu>Demo mode: no real bank is contacted. Use OTP <b>123456</b>. Real AA data needs a licensed RBI-AA integration on a backend.</p><input id=ao class=in placeholder="Enter OTP" maxlength=6><div id=aerr class=err></div><button class="btn big" onclick="aaOk()">Verify &amp; Sync</button>`) }
+    function aaOk() { if ($('#ao').value !== '123456') return $('#aerr').textContent = 'Incorrect OTP. Use 123456 in demo mode.'; closeM(); fillLoan({ lender: 'State Bank of India – SBI Scholar Loan Scheme', limit: 950000, bal: 540000, rate: 9.5, months: 84 }); toast('Sample loan synced (demo data)') }
+    function upload(f) { if (f.size > 10 * 1048576) return toast('File too large (max 10 MB)'); $('#fn').textContent = 'Reading ' + f.name + '…'; setTimeout(() => { fillLoan({ lender: 'State Bank of India – SBI Scholar Loan Scheme', limit: 950000, bal: 540000, rate: 9.5, months: 84 }); $('#fn').textContent = f.name + ' uploaded. Demo: fields filled with sample values — please correct them. Real reading needs an OCR backend.' }, 1100) }
+
+    /* ===== DASHBOARD ACTIONS ===== */
+    function payModal(def) { const c = ctx(); modal(`<h3>Simulate a payment</h3><p class=mu>One-time extra payment toward principal.</p><label class=l>Amount (₹)</label><input id=pa type=number min=0 class=in value="${def}" oninput=payPrev()><div id=pp class=banner style="background:var(--pl)"></div><br><button class=btn onclick="payApply()">Apply Payment</button> <button class=btn2 onclick="closeM()">Cancel</button>`); payPrev() }
+    function payPrev() { const c = ctx(), a = Math.min(Math.max(+$('#pa').value || 0, 0), c.l.bal), s = sim(c.l.bal - a, c.l.rate, c.e, c.x); $('#pp').innerHTML = a ? `Debt-free <b>${s.m ? addM(s.m) : 'now'}</b> • ${Math.max(c.cur.m - s.m, 0)} months sooner • interest saved <b>${inr(c.cur.int - s.int)}</b>` : 'Enter an amount to preview.' }
+    function payApply() { const c = ctx(), a = Math.min(Math.max(+$('#pa').value || 0, 0), c.l.bal); if (!a) return; c.l.bal -= a; save(); closeM(); toast(inr(a) + ' applied to principal'); render() }
+    function applyBi() { const c = ctx(); c.u.extra = Math.round(c.e / 12); save(); toast('Bi-weekly split applied (≈ ' + inr(c.u.extra) + ' extra / month)'); render() }
+    function taxModal() { const c = ctx(), y = yearInt(c.l.bal, c.l.rate, c.e + c.x); modal(`<h3>Section 80E guide</h3><p>80E lets you deduct the <b>interest</b> (not principal) paid on an education loan, with no upper limit, for up to 8 years starting from the year repayment begins, or until the interest is fully paid.</p><p>Your interest over the next 12 months: <b>${inr(y)}</b>. At an illustrative 30% tax slab that is about <b>${inr(y * .3)}</b> of tax.</p><p class="mu sm">*It applies to individuals under the regime that allows the deduction. Tax rules were restructured recently, so confirm the current section and regime with a tax professional.</p><button class=btn onclick="closeM()">Got it</button>`) }
+    function miniAsk(e) { e.preventDefault(); const q = $('#mq').value.trim(); if (!q) return; $('#mini').innerHTML = answer(q).h; $('#mq').value = '' }
+
+    /* ===== CHAT / AI ENGINE ===== */
+    function newChat() { curChat = -1; render() } function openChat(i) { curChat = i; render() }
+    function sendForm(e) { e.preventDefault(); const q = $('#cq').value.trim(); if (q) send(q) }
+    function send(q) {
+      const u = U(); if (curChat < 0) { u.chats.unshift({ t: q.slice(0, 34), m: [] }); curChat = 0 } const ch = u.chats[curChat]; ch.m.push({ r: 'u', h: esc(q) }); save(); render();
+      const m = $('#msgs'), t = document.createElement('div'); t.className = 'm a mu'; t.textContent = 'EduDebt Copilot is calculating…'; m.append(t); m.scrollTop = m.scrollHeight;
+      setTimeout(() => { ch.m.push({ r: 'a', h: answer(q).h }); save(); render() }, 650)
+    }
+    function nums(t) { return [...t.replace(/\d+(\.\d+)?\s*%/g, ' ').matchAll(/(\d[\d,]*(?:\.\d+)?)\s*(k|lakh|lakhs|lac|l|cr)?\b/gi)].map(m => { let v = parseFloat(m[1].replace(/,/g, '')); const s = (m[2] || '').toLowerCase(); if (s === 'k') v *= 1e3; else if (/^(lakh|lakhs|lac|l)$/.test(s)) v *= 1e5; else if (s === 'cr') v *= 1e7; return v }).filter(v => v > 0) }
+    function answer(q) {
+      const c = ctx(), u = c.u, l = c.l, t = q.toLowerCase(), n = nums(t), e = c.e, x0 = c.x, base = c.cur;
+      const R = h => ({ h });
+      if (/80e|tax|rebate|deduct/.test(t)) { const y = yearInt(l.bal, l.rate, e + x0); return R(`<p><b>Section 80E</b> allows a deduction for the <b>interest</b> paid on an education loan (principal does not qualify), with no upper limit, for up to 8 years from when repayment starts or until the interest is cleared, whichever is earlier.</p>${card3([['Interest, next 12 mo', inr(y), 'on your loan'], ['Tax saved at 30% slab', inr(y * .3), 'illustrative'], ['Tax saved at 20% slab', inr(y * .2), 'illustrative']])}<div class=tip>Prepaying lowers interest, so your 80E deduction shrinks too — but you still come out ahead because every ₹1 of interest avoided costs less than the tax saved on it. Confirm the current section number and regime with a tax professional.</div>`) }
+      if (/csis|subsid|moratorium|simple interest/.test(t)) return R(`<p><b>Moratorium</b> is the course period plus a grace period (typically 6–12 months after the course or job start). Interest still accrues during it, so paying even the simple interest while studying stops it from being added to your principal.</p><p><b>CSIS</b> (Central Sector Interest Subsidy) is a government scheme that pays the moratorium interest for eligible students — generally family income up to ₹4.5 lakh, approved professional/technical courses in India, and a loan from a participating bank.</p><div class=tip>${l.csis ? 'You marked CSIS as eligible; keep your income certificate ready and confirm with your bank.' : 'You haven’t marked CSIS eligibility. Ask your bank or check the Vidya Lakshmi / PM-Vidyalaxmi portal.'} Scheme terms change, so verify current rules.</div>`);
+      if (/refinanc|balance transfer|switch|lower rate|credila|hdfc/.test(t)) {
+        const m = q.match(/(\d+(?:\.\d+)?)\s*%/), nr = m ? +m[1] : Math.max(l.rate - 1, 1), rem = Math.min(base.m, 600), ne = emi(l.bal, nr, rem), sv = base.int - (ne * rem - l.bal);
+        return R(`<p>Moving the current balance of ${mon(l.bal)} from ${l.rate}% to <b>${nr}%</b> over the same ${rem} remaining months:</p>${card3([['New EMI', inr(ne), 'was ' + inr(e + x0)], ['Interest saved', inr(sv), 'before fees', sv > 0 ? 'gr' : 'rd'], ['Break-even', sv > 0 ? 'Check fees' : 'No gain', '']])}<div class=tip>Subtract processing fees (often 0.5–1% of the amount) and any lost moratorium/subsidy benefits. If savings exceed fees comfortably, refinancing is worth a quote.</div>`)
+      }
+      if (/extra|prepay|prepayment|pay more|more every|bonus|lump|increase|boost|pay off|payoff|part.?pay|surplus|first salary/.test(t) || (/pay/.test(t) && n.length && /month|once|extra/.test(t))) {
+        let a = n.find(v => v < l.bal * 1.01 && v >= 100) || 3000; const lump = /lump|one[- ]?time|bonus|once|joining|diwali/.test(t) || a >= 60000, assume = n.length ? '' : ' (no amount given, so I assumed ₹3,000)';
+        if (lump) { const s = sim(Math.max(l.bal - a, 0), l.rate, e, x0); return R(`<p>A one-time prepayment of <b>${inr(a)}</b> toward principal${assume}:</p>${card3([['One-time payment', inr(a), 'to principal'], ['Debt-free date', s.m ? addM(s.m) : 'Now', Math.max(base.m - s.m, 0) + ' months sooner', 'gr'], ['Interest saved', inr(base.int - s.int), 'pure saving', 'pu']])}<div class=tip>Ask your lender to apply it as a <b>principal prepayment that reduces tenure</b> rather than advance-EMI buffering. Floating-rate loans to individuals usually have no prepayment penalty — confirm with your bank.</div>`) }
+        const s = sim(l.bal, l.rate, e, x0 + a); return R(`<p>Paying <b>${inr(a)}</b> extra every month${assume} at ${l.rate}%:</p>${card3([['Monthly payment', inr(e + x0 + a), '+' + inr(a) + '/mo'], ['Debt-free date', s.m >= 999 ? '—' : addM(s.m), (base.m - s.m) + ' months faster', 'gr'], ['Interest saved', inr(base.int - s.int), 'pure cash saved', 'pu']])}<div class=tip>Calculated on a monthly reducing balance. Select "Principal Prepayment" when depositing the extra amount, and keep an emergency buffer before committing.</div>`)
+      }
+      if (/debt.?free|how long|when.*(done|finish|clear)|tenure|remaining/.test(t)) return R(`<p>At ${inr(e + x0)}/month you’ll be debt-free in <b>${base.m} months (${addM(base.m)})</b>, paying about ${inr(base.int)} interest in total.</p>`);
+      if (/outstanding|balance|owe|principal/.test(t)) return R(`<p>Your outstanding balance is <b>${mon(l.bal)}</b> against a sanctioned limit of ${mon(l.limit)}.</p>`);
+      if (/emi|monthly (payment|outflow)/.test(t)) return R(`<p>Your EMI is <b>${inr(e)}</b>${x0 ? ` (plus ${inr(x0)} extra, so ${inr(e + x0)}/month)` : ''}.</p>`);
+      if (/interest|rate/.test(t)) return R(`<p>Your rate is <b>${l.rate}% p.a.</b>. Projected interest over the remaining life: <b>${inr(base.int)}</b>.</p>`);
+      if (/afford|salary|income|dti|take.?home/.test(t)) { const d = u.income ? e / u.income * 100 : 0; return R(`<p>Your EMI is ${inr(e)} against take-home of ${inr(u.income)} — a debt-to-income of <b>${d.toFixed(1)}%</b> (healthy is under 35%). Update your income in Settings for precise numbers.</p>`) }
+      if (/^(hi|hello|hey|namaste)\b/.test(t)) return R(`<p>Hi ${esc(u.name.split(' ')[0])}! Try: “What if I pay ₹5,000 extra every month?”</p>`);
+      return R(`<p>I can only answer reliably about your loan, so I’d rather not guess. Try asking about:</p><div class=tip>• Extra monthly payments (“pay ₹4,000 extra monthly”)<br>• Lump sums (“₹50,000 bonus once”)<br>• Refinancing (“refinance at 8.5%”)<br>• 80E tax deduction • CSIS &amp; moratorium<br>• Your EMI, balance, rate or debt-free date</div>`)
+    }
+
+    /* ===== SCENARIOS ===== */
+    function setSc(v) { scX = Math.max(+v || 0, 0); $('#scx').value = scX; $('#scr').value = scX; drawSc() }
+    function drawSc() {
+      const c = ctx(), l = c.l, e = c.e, a = sim(l.bal, l.rate, e, 0), s = sim(l.bal, l.rate, e, scX), sv = a.int - s.int, inc = c.u.income || 1;
+      $('#scsub').textContent = 'Comparing baseline amortization against an accelerated ' + inr(scX) + ' monthly prepayment.';
+      const R = (m, a, b) => `<tr><td><b>${m}</b></td><td>${a}</td><td>${b}</td></tr>`;
+      $('#scb').innerHTML = `<div class=kg><div class=k><small>Total Interest Saved</small><b class=gr>${inr(sv)}</b><span class="mu sm">${a.int ? (sv / a.int * 100).toFixed(1) : 0}% reduction in finance charges</span></div><div class=k><small>Freedom Acceleration</small><b class=pu>${a.m - s.m} Months</b><span class="mu sm">Debt-free ${((a.m - s.m) / 12).toFixed(1)} years ahead</span></div><div class=k><small>New Debt-Free Date</small><b>${s.m >= 999 ? '—' : addM(s.m)}</b><span class="mu sm">Original: ${addM(a.m)}</span></div></div>
+<div class="card ov"><h2>Amortization Dynamics</h2><table class=t><tr><th>Metric / Term</th><th>Current Plan (Baseline)</th><th>Extra ${inr(scX)} / mo • Recommended</th></tr>${R('Monthly Outflow', inr(e) + ' / month', inr(e + scX) + ' / month')}${R('Remaining Tenor', a.m + ' Months (' + addM(a.m) + ')', s.m + ' Months (' + addM(s.m) + ')')}${R('Total Interest Payable', '<span class=rd>' + inr(a.int) + '</span>', inr(s.int))}${R('Total Cost of Loan', inr(l.bal + a.int), inr(l.bal + s.int))}</table></div>
+<div class="banner b" style="margin-top:20px;padding:20px"><b>AI Advisor Analysis — ${sv > 50000 ? 'High Impact Strategy' : 'Moderate Impact Strategy'}</b><br>Adding ${inr(scX)} to your ${inr(e)} monthly payment uses ${(scX / inc * 100).toFixed(1)}% of your ${inr(inc)} take-home, avoiding ${inr(sv)} in cumulative compounding interest.</div>
+<div class="banner y">These figures are estimates based on your provided loan terms (${l.rate}% p.a. reducing balance, monthly compounding). Actual schedules may vary slightly.</div>`
+    }
+    function saveSc() { const u = U(), a = sim(u.loan.bal, u.loan.rate, ctx().e, scX); u.saved.unshift({ x: scX, m: a.m }); u.saved = u.saved.slice(0, 8); save(); drawSaved(); toast('Scenario saved') }
+    function drawSaved() { const u = U(), c = ctx(); $('#saved').innerHTML = u.saved.length ? `<div class=card><h3>Saved scenarios</h3>${u.saved.map((s, i) => { const r = sim(u.loan.bal, u.loan.rate, c.e, s.x); return `<div class=tr><span>${inr(s.x)}/mo extra → ${r.m >= 999 ? '—' : addM(r.m)} • saves ${inr(c.base.int - r.int)}</span><span><button class=btn2 onclick="setSc(${s.x})">Load</button> <button class="btn2 danger" onclick="delSc(${i})">Delete</button></span></div>` }).join('')}</div>` : '' }
+    function delSc(i) { U().saved.splice(i, 1); save(); drawSaved() }
+    function applySc() { const u = U(); u.extra = scX; save(); toast('Strategy applied to your repayment schedule'); go('dash') }
+
+    /* ===== SETTINGS ===== */
+    function tg(k, v) { U().tg[k] = v ? 1 : 0; save(); if (k === 'mask') render(); else toast('Preference updated') }
+    function saveProfile() { const u = U(), n = $('#s_nm').value.trim(); if (n.length < 2) return toast('Enter your name'); u.name = n; u.college = $('#s_co').value.trim(); u.income = Math.max(+$('#s_inc').value || 0, 0); u.employer = $('#s_emp').value.trim(); save(); toast('Saved'); render() }
+    function schedule() { const c = ctx(), i = c.l.rate / 1200; let b = c.l.bal, rows = [], d = new Date(); for (let m = 1; b > 0.5 && m <= 600; m++) { const it = b * i, pay = Math.min(c.e + c.x, b + it), pr = pay - it; b = Math.max(b - pr, 0); d.setMonth(d.getMonth() + 1); rows.push([m, d.toLocaleString('en-IN', { month: 'short', year: 'numeric' }), Math.round(pay), Math.round(it), Math.round(pr), Math.round(b)]) } return rows }
+    function exportModal() { modal(`<h3>Export loan history</h3><p class=mu>Your repayment schedule from today at the current plan.</p><br><button class=btn onclick="expCsv()">Download CSV</button> <button class=btn2 onclick="expPdf()">Save as PDF</button>`) }
+    function expCsv() { const r = [['Month', 'Date', 'Payment', 'Interest', 'Principal', 'Balance'], ...schedule()].map(a => a.join(',')).join('\n'), a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([r], { type: 'text/csv' })); a.download = 'edudebt-loan-schedule.csv'; a.click(); closeM(); toast('CSV downloaded') }
+    function expPdf() { const w = window.open('', '_blank'); if (!w) return toast('Allow pop-ups to export PDF'); w.document.write('<title>Loan schedule</title><style>body{font-family:sans-serif}td,th{border:1px solid #ccc;padding:4px 8px;text-align:right}table{border-collapse:collapse}</style><h2>EduDebt.AI – Repayment schedule</h2><table><tr><th>Month</th><th>Date</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Balance</th></tr>' + schedule().map(r => '<tr>' + r.map(v => '<td>' + v + '</td>').join('') + '</tr>').join('') + '</table>'); w.document.close(); w.print(); closeM() }
+    function delModal() { modal(`<h3 style="color:var(--r)">Delete account</h3><p>This permanently removes your profile, loan data, chats and saved scenarios from this browser. This cannot be undone.</p><label class=l>Type DELETE to confirm</label><input id=dc class=in oninput="$('#db').disabled=this.value!=='DELETE'"><br><br><button id=db class="btn danger" disabled onclick="delAcc()" style="opacity:1">Delete my account</button> <button class=btn2 onclick="closeM()">Cancel</button>`) }
+    function delAcc() { delete DB.users[DB.cur]; DB.cur = null; save(); sessionStorage.removeItem('draft'); closeM(); authTab = 'login'; page = 'landing'; render(); toast('Your account has been deleted') }
+
+    document.addEventListener('click', e => { const m = $('#menu'); if (m && !e.target.closest('.av,.menu')) m.classList.remove('on') });
+    if (U()) { page = U().loan ? 'dash' : (U().persona.done ? 'loan' : 'persona') }
+    render();
+  </script>
+</body>
+
+</html>
